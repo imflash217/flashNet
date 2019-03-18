@@ -202,7 +202,7 @@ def get_cars(test=False, ver=360, interval=1, half=None, angle_info=False, image
                 car_image = car_image.astype(np.float32)/255.
                 car_images.append( car_image )
 		if angle_info:
-		    classes.append( idx )
+                    classes.append( idx )
 
         elif ver == 90:
             for idx,i in enumerate(range(5,-1,-1)):
