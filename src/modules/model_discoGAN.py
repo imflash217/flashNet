@@ -1,4 +1,4 @@
-"""Implementation of original Disco-GAN architecture"""
+"""Implementation of original Disco-GAN architecture for audio data"""
 import os
 import numpy as np
 import fastai
@@ -91,7 +91,7 @@ class Generator(torch.nn.Module):
                     nn.ReLU(inplace=True),
                     nn.ConvTranspose2d(64*2, 64, 4, 2, 1, bias=True),
                     nn.BatchNorm2d(64),
-                    nn.ReLU(inplace=True)
+                    nn.ReLU(inplace=True),
                     nn.ConvTranspose2d(64, 3, 4, 2, 1, bias=True),
                     nn.Sigmoid()
                 )
