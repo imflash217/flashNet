@@ -14,6 +14,21 @@ __license__ = "MIT"
 class Discriminator(torch.nn.Module):
     def __init__(self):
         super(Discriminator, self).__init__()
+        self.discriminator = nn.Sequential(
+                nn.Conv2d(3, 64, 4, 2, 1, bias=True),
+                nn.LeakyReLU(0.2, inplace=True),
+                nn.Conv2d(64, 64*2, 4, 2, 1, bias=True),
+                nn.BatchNorm2d(64*2),
+                nn.LeakyReLU(0.2, inplace=True),
+                nn.Conv2d(64*2, 64*4, 4, 2, 1, bias=True),
+                nn.BatchNorm2d(64*4),
+                nn.LeakyReLU(0.2, inplace=True),
+                nn.Conv2d(64*4, 64*8, 4, 2, 1, bias=True),
+                nn.BatchNorm2d(64*8),
+                nn.LeakyReLU(0.2, inplace=True),
+                nn.Conv2d(64*8, 1, 4, 2, 1, bias=True)
+            )
+
         self.conv1 = nn.Conv2d(3, 64, 4, 2, 1, bias=True)
         self.relu1 = nn.LeakyReLU(0.2, inplace=True)
         self.conv2 = nn.Conv2d(64, 64*2, 1, 2, 1, bias=True)
