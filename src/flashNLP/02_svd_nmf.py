@@ -48,3 +48,20 @@ print(f"{[wnl.lemmatize(word) for word in word_list]}")
 
 # using stemming
 print(f"{[porter.stem(word) for word in word_list]}")
+
+## Data Processing
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import nltk
+nltk.download("punkt")
+
+vectorizer = CountVectorizer(stop_words="english")
+vectors = vectorizer.fit_transform(newsgroups_train.data).todense()
+print(vectors.shape)
+# print(vectors[-2:][-10:])
+vocab = np.array(vectorizer.get_feature_names())
+print(vocab.shape)
+print(vocab[7000:7020])
+
+#########################################################################################
+## Singular Value Decomposition
+#########################################################################################
