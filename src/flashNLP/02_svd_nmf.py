@@ -108,7 +108,7 @@ print(np.allclose(Vh @ Vh.T, np.eye(Vh.shape[0])))
 
 # What can we say about the singular values s
 plt.plot(s)
-plt.show()
+# plt.show()
 
 #########################################################################################
 
@@ -120,5 +120,11 @@ def show_topics(a: np.array):
 print(show_topics(Vh[:10]))
 
 #########################################################################################
+## Non-negative Matrix Factorization
 
+clf = decomposition.NMF(n_components=num_top_words, random_state=1)
+W = clf.fit_transform(vectors)
+H = clf.components_
 
+# print(W)
+print(H)
