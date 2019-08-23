@@ -1,6 +1,7 @@
 ```
 __editor__: @imflash217
 __copyright__: flash.ai @ 2019
+__book__: Guide to Numpy by Oliphant
 ```
 
 # `np.ndarray`
@@ -54,4 +55,22 @@ __copyright__: flash.ai @ 2019
 
 # Basic Indexing (slicing)
 
+# `broadcasting`
+1. `ufunc`s are always element-by-element operation
+2. Broadcasting allows `ufunc`s to deal in a meaningful way with inputs that do not have exactly the same shape.
 
+Rules of `broadcasting`:
+1. `Rule #1`: If all input arrays do not have the same number of dimensions then, a `1` will be
+    repeatedly pre-pended to the shapes of the smaller arrays untill all arrays have the same number of dimensions.
+2. `Rule #2`: Arrays with size of `1` along a particular dimension act as if they had
+    the size of the largest shape along that dimension. The value of the array element is
+    assumed to be same along that dimension for the `broadcast` array.
+3. `Rule #3`: After application of the broadcasting rules, all arrays must have the same shape.
+
+* `Notes`:One important aspect of broadcasting is the calculation of functions on the regularly spaced grids.
+
+# `np.ndarray` attributes:
+1. Array attributes reflect information about the array that are intrinsic to the array itself.
+2. The exposed attributes are the core parts of the array.
+3. Only some of the attributes can be reset meaningfully without creating a new array.
+4.
