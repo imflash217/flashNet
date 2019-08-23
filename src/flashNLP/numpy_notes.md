@@ -73,4 +73,23 @@ Rules of `broadcasting`:
 1. Array attributes reflect information about the array that are intrinsic to the array itself.
 2. The exposed attributes are the core parts of the array.
 3. Only some of the attributes can be reset meaningfully without creating a new array.
-4.
+4. Following are the attributes of `np.ndarray`:
+    * `flags`   : settable = NO     : provides info about how the memory area used for array is to be interpreted.
+    * `shape`   : settable = YES    : tuple showing the array shape; setting this attribute reshapes the array.
+    * `strides` : settable = YES    : tuple showing how many _bytes_ must be jumped in to get to next element.
+    * `ndim`    : settable = NO     : number of dimensions in the array.
+    * `data`    : settable = YES    : buffer object loosely wrapping the array data (only for single segment array).
+    * `size`    : settable = NO     : number of elements in the array.
+    * `itemsize`: settable = NO     : size (in _bytes_) of each element in the array.
+    * `nbytes`  : settable = NO     : total number of bytes used.
+    * `base`    : settable = NO     : object this array is using for its data buffer. `None` if it owns its memory.
+    * `dtype`   : settable = YES    : the data-type object of the array.
+    * `real`    : settable = YES    : real part of the array. Setting copies data to the real part of the array.
+    * `imag`    : settable = YES    : imaginary-part or 0-only array (if type is not complex). Setting works only if type is complex.
+    * `flat`    : settable = YES    : one-dimensional, indexible iterator object that somwhat acts like 1D array.
+    * `ctypes`  : settable = NO     : object to simplify the simplify the interaction of this object with `ctypes` module.
+    * `__array_interface__`         : dictionary with keys for compliance with Python side of array protocol
+    * `__array_struct__`            : array interface on C-level
+    * `__array_priority__`          : always 0 for `base` type of `ndarray`
+
+5.
