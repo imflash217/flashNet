@@ -8,7 +8,7 @@ __author__ = "Vinay Kumar"
 from fastai import *
 from fastai.vision import *
 
-def pets():
+def pets_resnet34():
     ## Setting the hyperparams
     bs = 16     # batch-size
     num_epochs = 4
@@ -65,7 +65,7 @@ def pets():
     learn = cnn_learner(data, models.resnet34, metrics=error_rate)
     print(learn.model)
     learn.fit_one_cycle(num_epochs)
-    learn.save("stage-1")
+    learn.save("pets_resnet34_stage1")
 
     ## Results
     """
@@ -80,11 +80,62 @@ def pets():
 
     interp = ClassificationInterpretation.from_learner(learn)
     losses, idxs = interp.top_losses()
-    print(len(data.valid_ds), len(losses), len(idxs))
+    print(len(data.valid_ds) == len(losses) == len(idxs))
     interp.plot_top_losses(9, figsize=(15, 11))
     interp.plot_confusion_matrix(figsize=(12,12), dpi=60)
     interp.most_confused(min_val=2)
 
+    ## Unfreeze, finetuning, & learning rates
+    ## We will unfreeze our model and train our model
+    learn.unfreeze()
+    learn.fit_one_cycle(num_epochs)
+    # if the error rate degrades after training then load the previously saved model else skip
+    # learn.load("pets_resnet34_stage1")    ## loading the previous saved model with less error-rate
+    learn.lr_find()                                                          ## learning rate finder
+    learn.recorder.plot()
+
+    ## unfreeze again and train again with newer learning rates found via lr_find()
+    learn.unfreeze()
+    learn.fit_one_cycle(num_epochs, max_lr=slice(1e-6,1e-4))
+
+def mnist_resnet18():
+    ## hyperparameters
+    bs = 16
+    num_epochs = 1
+
+    ## collecting the data
+    path = untar_data(URLs.MNIST_SAMPLE)
+    print(PATH)
+    tfms = get_transforms(do_flip=True)                   ## transforming the data & data-augmenting
+    data = ImageDataBunch(path=path, ds_tfms=tfms, size=bs)
+    data.show_batch(rows=3, size=(5,5))
+
+    ## creating the learner resnet18
+    learn = cnn_learner(data, models.resnet18, metrics=accuracy)
+    learn.fit_one_cycle(num_epochs)
+    learn.save("mnist_resnet18_stage1")
+
+    ## Interpreting the results
+    interp = ClassificationInterpretation.from_learner(learn)
+    losses, idxs = interp.top_losses()
+    print(len(data.valid_ds) == len(losses) == len(idxs))
+    interp.plot_top_losses(9, figsize=(5,5))
+    interp.plot_confusion_matrix(figsize=(12,12), dpi=60)
+    interp.most_confused(min_val=2)
+
+    ## Unfreeze, finetuning, and learning-rate
+    learn.unfreeze()
+    learn.fit_one_cycle(num_epochs)
+    # if the accuracy is worse than the previous, we will load the previous saved model else skip
+    # learn.load("mnist_resnet18_stage1")
+    learn.lr_find()                                                     ## finding the learning rate
+    learn.recorder.plot()
+    learn.unfreeze()             # again unfreezing the loaded model to train with new learning rate
+    learn.fit_one_cycle(num_epochs, max_lr=slice(1e-6, 1e-4))    ## set the max_lr according to plot
+    # if the accuracy is better the earlier, then save model else skip the next line
+    # learn.save("mnist_resnet18_stage2")
+
+
 if __name__ == "__main__":
     print("running main")
-    pets()
+    pets_resnet34()
