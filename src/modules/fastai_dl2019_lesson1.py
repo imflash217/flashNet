@@ -91,6 +91,7 @@ def pets_resnet34():
     learn.fit_one_cycle(num_epochs)
     # if the error rate degrades after training then load the previously saved model else skip
     # learn.load("pets_resnet34_stage1")    ## loading the previous saved model with less error-rate
+
     learn.lr_find()                                                          ## learning rate finder
     learn.recorder.plot()
 
@@ -107,7 +108,7 @@ def mnist_resnet18():
     path = untar_data(URLs.MNIST_SAMPLE)
     print(PATH)
     tfms = get_transforms(do_flip=True)                   ## transforming the data & data-augmenting
-    data = ImageDataBunch(path=path, ds_tfms=tfms, size=bs)
+    data = ImageDataBunch.from_folder(path=path, ds_tfms=tfms, size=bs)
     data.show_batch(rows=3, size=(5,5))
 
     ## creating the learner resnet18
