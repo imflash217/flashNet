@@ -16,6 +16,21 @@ def test(a, b, cmp, cname=None):
 def test_eq(a,b):
     test(a, b, operator.eq, "==")
 
+from pathlib import Path
+from IPython.core.debugger import set_trace
+import gzip
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+import pickle
+import math
+import torch
+from fastai import datasets
+
+MNIST_URL = "http://deeplearning.net/data/mnist/mnist.pkl"
+
+
 ### test whether the results from two methods are same or not
 ### as its difficult to accurately achieve the same numbers due to floating-point operation
 ### we will create a function to test whether two tensor (of same shape) are
