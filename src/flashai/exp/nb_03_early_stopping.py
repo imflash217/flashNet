@@ -157,8 +157,9 @@ class AvgStatsCallback(Callback):
             stats.accumulate(self.run)
 
     def after_epoch(self):
-        print(self.train_stats)
-        print(self.valid_stats)
+        print(f"epoch=[{self.epoch}/{self.epochs}]:\t"\
+              f"{self.train_stats}\t"\
+              f"{self.valid_stats}")
 
 class Recorder(Callback):
     def begin_fit(self):
